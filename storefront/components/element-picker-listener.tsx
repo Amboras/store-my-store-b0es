@@ -56,22 +56,21 @@ export function ElementPickerListener() {
         height: ${rect.height}px;
       `;
 
-      // Show tooltip
-      const selector = getSelector(el);
-      tooltip.textContent = selector;
+      // Show tooltip with "Click to select" message
+      tooltip.textContent = 'Click to select';
       tooltip.style.cssText = `
         position: fixed;
         background: rgba(0, 0, 0, 0.9);
         color: white;
-        padding: 4px 8px;
+        padding: 6px 10px;
         border-radius: 4px;
         font-size: 12px;
-        font-family: monospace;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         pointer-events: none;
         z-index: 1000000;
         white-space: nowrap;
         opacity: 1;
-        top: ${rect.top - 24}px;
+        top: ${rect.top - 28}px;
         left: ${rect.left}px;
       `;
     }
