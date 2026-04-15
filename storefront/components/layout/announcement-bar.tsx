@@ -10,14 +10,16 @@ export default function AnnouncementBar() {
 
   return (
     <div className="relative bg-foreground text-primary-foreground">
-      <div className="container-custom flex items-center justify-center py-2.5 text-sm tracking-wide">
-        <p>Free shipping on orders over $75 — Shop the new collection</p>
+      <div className="container-custom flex items-center justify-center py-2.5 gap-8">
+        <p className="text-xs tracking-[0.18em] uppercase font-medium">
+          Complimentary shipping on all orders &nbsp;&mdash;&nbsp; 2-Year Movement Warranty Included
+        </p>
         <button
           onClick={() => setIsVisible(false)}
-          className="absolute right-4 p-1 hover:opacity-70 transition-opacity"
+          className="absolute right-4 p-1 hover:opacity-60 transition-opacity"
           aria-label="Dismiss announcement"
         >
-          <X className="h-3.5 w-3.5" />
+          <X className="h-3 w-3" />
         </button>
       </div>
     </div>

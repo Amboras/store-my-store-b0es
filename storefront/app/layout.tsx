@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Lato, Inter } from 'next/font/google'
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import { Providers } from './providers'
 import Header from '@/components/layout/header'
 import Footer from '@/components/layout/footer'
@@ -14,14 +14,16 @@ import dynamic from 'next/dynamic'
 
 const CookieConsent = dynamic(() => import('@/components/cookie-consent'))
 
-const heading = Lato({
+// Cormorant Garamond — elegant serif for headings (luxury / high-fashion)
+const heading = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-heading',
   display: 'swap',
 })
 
-const body = Inter({
+// DM Sans — clean, modern sans-serif for body copy
+const body = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
   variable: '--font-body',
@@ -30,10 +32,11 @@ const body = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Store — Modern Commerce',
-    template: '%s | Store',
+    default: 'Amboras — Luxury Timepieces',
+    template: '%s | Amboras',
   },
-  description: 'Discover curated products crafted with care. A modern ecommerce experience.',
+  description:
+    'Discover our curated collection of exceptional luxury watches. Precision-crafted timepieces for those who appreciate the finest things.',
 }
 
 export default function RootLayout({
@@ -44,9 +47,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${heading.variable} ${body.variable}`} suppressHydrationWarning>
       <head>
-        {/* PostHog cross-origin iframe recording shim — records DOM via rrweb and forwards
-            events to the parent window (admin dashboard) for session replay.
-            Uses rrweb@2.0.0-alpha.20 (same version proven in ecomcoder production). */}
         <script dangerouslySetInnerHTML={{ __html: `
 (function() {
   'use strict';

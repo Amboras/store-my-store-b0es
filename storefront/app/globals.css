@@ -4,35 +4,34 @@
 
 @layer base {
   :root {
-    --background: 40 20% 98%;
-    --foreground: 0 0% 10%;
-    --muted: 40 10% 94%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 35 40% 50%;
+    /* Deep near-black background with warm undertone */
+    --background: 30 8% 97%;
+    --foreground: 220 15% 8%;
+    /* Subtle warm grey for cards/sections */
+    --muted: 30 10% 93%;
+    --muted-foreground: 220 10% 45%;
+    /* Gold accent — the signature luxury touch */
+    --accent: 42 65% 48%;
     --accent-foreground: 0 0% 100%;
-    --border: 40 10% 88%;
-    --ring: 35 40% 50%;
-    --primary: 0 0% 10%;
-    --primary-foreground: 0 0% 98%;
+    --border: 30 12% 86%;
+    --ring: 42 65% 48%;
+    --primary: 220 15% 8%;
+    --primary-foreground: 30 8% 97%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-
-    /* Brand colors (dynamically injected from Store.metadata.brand) */
-    /* Access in CSS: var(--brand-primary), var(--brand-secondary) */
-    /* Managed by BrandStyleInjector component */
   }
 
   .dark {
-    --background: 0 0% 6%;
-    --foreground: 40 20% 94%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
-    --accent: 35 45% 55%;
-    --accent-foreground: 0 0% 100%;
-    --border: 0 0% 16%;
-    --ring: 35 45% 55%;
-    --primary: 40 20% 94%;
-    --primary-foreground: 0 0% 6%;
+    --background: 220 15% 6%;
+    --foreground: 30 12% 92%;
+    --muted: 220 12% 11%;
+    --muted-foreground: 220 8% 52%;
+    --accent: 42 68% 52%;
+    --accent-foreground: 220 15% 6%;
+    --border: 220 12% 16%;
+    --ring: 42 68% 52%;
+    --primary: 30 12% 92%;
+    --primary-foreground: 220 15% 6%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
   }
@@ -72,13 +71,32 @@
     @apply w-full;
   }
 
-  /* Brand color utilities - uses colors from Store.metadata.brand */
+  /* Gold accent underline variant */
+  .link-underline-gold::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-px w-0 transition-all duration-300;
+    background-color: hsl(var(--accent));
+  }
+  .link-underline-gold:hover::after {
+    @apply w-full;
+  }
+
+  /* Brand color utilities */
   .btn-brand-primary {
     background-color: var(--brand-primary, hsl(var(--primary)));
     color: white;
   }
   .btn-brand-primary:hover {
-    opacity: 0.9;
+    opacity: 0.88;
+  }
+
+  .btn-gold {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    letter-spacing: 0.12em;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.06);
   }
 
   .text-brand-primary {
@@ -100,6 +118,27 @@
   .bg-brand-secondary {
     background-color: var(--brand-secondary, hsl(var(--accent)));
   }
+
+  /* Gold divider line */
+  .divider-gold {
+    width: 3rem;
+    height: 1px;
+    background-color: hsl(var(--accent));
+  }
+
+  /* Luxury card hover */
+  .card-luxury {
+    @apply transition-all duration-500;
+  }
+  .card-luxury:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 20px 60px -10px rgba(0,0,0,0.12);
+  }
+
+  /* Gold text */
+  .text-gold {
+    color: hsl(var(--accent));
+  }
 }
 
 /* Smooth scrolling */
@@ -107,9 +146,10 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Selection color */
+/* Selection color — gold tint */
 ::selection {
-  @apply bg-accent/20 text-foreground;
+  background: hsla(42, 65%, 48%, 0.18);
+  color: hsl(var(--foreground));
 }
 
 /* Focus styles */
@@ -117,18 +157,31 @@ html {
   @apply outline-2 outline-offset-2 outline-ring;
 }
 
-/* Cookie consent animation */
+/* Animations */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.5s ease-out forwards;
 }
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease-out forwards;
+}
+
+/* Staggered children */
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 80ms; }
+.stagger > *:nth-child(3) { animation-delay: 160ms; }
+.stagger > *:nth-child(4) { animation-delay: 240ms; }

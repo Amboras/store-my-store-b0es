@@ -25,14 +25,10 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Focus close button when mobile menu opens
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      mobileMenuCloseRef.current?.focus()
-    }
+    if (isMobileMenuOpen) mobileMenuCloseRef.current?.focus()
   }, [isMobileMenuOpen])
 
-  // Close mobile menu on Escape
   useEffect(() => {
     if (!isMobileMenuOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -42,7 +38,6 @@ export default function Header() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isMobileMenuOpen])
 
-  // Focus trap for mobile menu
   const handleMobileMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key !== 'Tab' || !mobileMenuRef.current) return
     const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
@@ -52,11 +47,9 @@ export default function Header() {
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
     if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault()
-      last.focus()
+      e.preventDefault(); last.focus()
     } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault()
-      first.focus()
+      e.preventDefault(); first.focus()
     }
   }, [])
 
@@ -65,7 +58,7 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-300 ${
           isScrolled
-            ? 'bg-background/95 backdrop-blur-md border-b shadow-sm'
+            ? 'bg-background/96 backdrop-blur-md border-b shadow-sm'
             : 'bg-background border-b'
         }`}
       >
@@ -82,52 +75,52 @@ export default function Header() {
 
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-heading text-2xl font-semibold tracking-tight">
-                Store
+              <span className="font-heading text-2xl font-semibold tracking-[0.06em] uppercase" style={{ letterSpacing: '0.14em' }}>
+                Amboras
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
-              <Link href="/products" className="text-sm tracking-wide uppercase link-underline py-1" prefetch={true}>
-                Shop All
+            <nav className="hidden lg:flex items-center gap-9">
+              <Link href="/products" className="text-xs tracking-[0.14em] uppercase link-underline py-1 font-medium">
+                All Watches
               </Link>
               {collections?.slice(0, 4).map((collection: any) => (
                 <Link
                   key={collection.id}
                   href={`/collections/${collection.handle}`}
-                  className="text-sm tracking-wide uppercase link-underline py-1"
+                  className="text-xs tracking-[0.14em] uppercase link-underline py-1 font-medium"
                   prefetch={true}
                 >
                   {collection.title}
                 </Link>
               ))}
+              <Link href="/about" className="text-xs tracking-[0.14em] uppercase link-underline py-1 font-medium">
+                Our Story
+              </Link>
             </nav>
 
             {/* Actions */}
-            <div className="flex items-center gap-1">
-              <Link
-                href="/search"
-                className="p-2.5 hover:opacity-70 transition-opacity"
-                aria-label="Search"
-              >
-                <Search className="h-5 w-5" />
+            <div className="flex items-center gap-0.5">
+              <Link href="/search" className="p-2.5 hover:opacity-60 transition-opacity" aria-label="Search">
+                <Search className="h-4 w-4" />
               </Link>
               <Link
                 href={isLoggedIn ? '/account' : '/auth/login'}
-                className="p-2.5 hover:opacity-70 transition-opacity hidden sm:block"
+                className="p-2.5 hover:opacity-60 transition-opacity hidden sm:block"
                 aria-label={isLoggedIn ? 'Account' : 'Sign in'}
               >
-                {isLoggedIn ? <User className="h-5 w-5" /> : <LogIn className="h-5 w-5" />}
+                {isLoggedIn ? <User className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
               </Link>
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2.5 hover:opacity-70 transition-opacity"
+                className="relative p-2.5 hover:opacity-60 transition-opacity"
                 aria-label="Shopping bag"
               >
-                <ShoppingBag className="h-5 w-5" />
+                <ShoppingBag className="h-4 w-4" />
                 {itemCount > 0 && (
-                  <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[10px] font-bold text-background">
+                  <span className="absolute top-1 right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full text-[9px] font-bold text-white"
+                    style={{ backgroundColor: 'hsl(42 65% 48%)' }}>
                     {itemCount}
                   </span>
                 )}
@@ -140,62 +133,38 @@ export default function Header() {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
+          <div className="absolute inset-0 bg-black/50" onClick={() => setIsMobileMenuOpen(false)} />
           <div
             ref={mobileMenuRef}
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
             onKeyDown={handleMobileMenuKeyDown}
-            className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-background animate-slide-in-right"
+            className="absolute inset-y-0 left-0 w-80 max-w-[85vw] bg-background"
           >
-            <div className="flex items-center justify-between p-4 border-b">
-              <span className="font-heading text-xl font-semibold">Menu</span>
-              <button
-                ref={mobileMenuCloseRef}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 hover:opacity-70"
-                aria-label="Close menu"
-              >
-                <X className="h-5 w-5" />
+            <div className="flex items-center justify-between px-6 py-5 border-b">
+              <span className="font-heading text-xl font-semibold tracking-widest uppercase">Amboras</span>
+              <button ref={mobileMenuCloseRef} onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:opacity-60" aria-label="Close menu">
+                <X className="h-4 w-4" />
               </button>
             </div>
-            <nav className="p-4 space-y-1">
-              <Link
-                href="/products"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block py-3 text-lg tracking-wide border-b border-border/50"
-                prefetch={true}
-              >
-                Shop All
+            <nav className="px-6 py-4 space-y-0">
+              <Link href="/products" onClick={() => setIsMobileMenuOpen(false)} className="block py-4 text-sm tracking-[0.12em] uppercase border-b border-border/40 font-medium" prefetch={true}>
+                All Watches
               </Link>
               {collections?.map((collection: any) => (
-                <Link
-                  key={collection.id}
-                  href={`/collections/${collection.handle}`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-lg tracking-wide border-b border-border/50"
-                  prefetch={true}
-                >
+                <Link key={collection.id} href={`/collections/${collection.handle}`} onClick={() => setIsMobileMenuOpen(false)} className="block py-4 text-sm tracking-[0.12em] uppercase border-b border-border/40 font-medium" prefetch={true}>
                   {collection.title}
                 </Link>
               ))}
-              <div className="pt-4 space-y-1">
-                <Link
-                  href={isLoggedIn ? '/account' : '/auth/login'}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-muted-foreground"
-                >
-                  {isLoggedIn ? 'Account' : 'Sign In'}
+              <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="block py-4 text-sm tracking-[0.12em] uppercase border-b border-border/40 font-medium">
+                Our Story
+              </Link>
+              <div className="pt-6 space-y-3">
+                <Link href={isLoggedIn ? '/account' : '/auth/login'} onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-sm text-muted-foreground">
+                  {isLoggedIn ? 'My Account' : 'Sign In'}
                 </Link>
-                <Link
-                  href="/search"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 text-muted-foreground"
-                >
+                <Link href="/search" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 text-sm text-muted-foreground">
                   Search
                 </Link>
               </div>
